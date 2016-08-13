@@ -37,7 +37,9 @@ Principles:
 
 1. Ansible to do Infrastructure as a Code
 2. Creates AWS ec2 instances, manages tagging
-3. Gathers results from each client and returns aggregated table
+3. Propagates load testing configuration to instances and runs them
+4. Tracks status if load testing complete
+5. Gathers results from each client and returns aggregated table
 
 # Links
 
