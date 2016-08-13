@@ -1,4 +1,4 @@
-package com.autoscaling.v1.responses;
+package com.autoscaling.v1.controller.responses;
 
 public class HealthcheckResult {
     private boolean healthy;
