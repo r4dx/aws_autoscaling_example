@@ -11,9 +11,13 @@ Here are most important parts of what's done:
 
 # LikesService
 
-POST /v1/<userId>/likes, - adds like to a user
-GET /v1/<userId>/likes, - gets amount of likes for a user
-GET /v1/healthcheck, - returns { "healthy": true } if healthy
+API:
+
+1. POST /v1/<userId>/likes, - adds like to a user
+2. GET /v1/<userId>/likes, - gets amount of likes for a user
+3. GET /v1/healthcheck, - returns { "healthy": true } if healthy
+
+Principles:
 
 1. REST over HTTP as a protocol
 2. Spring boot as a framework
