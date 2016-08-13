@@ -1,0 +1,7 @@
+image: qlik/gradle
+
+pipelines:
+  default:
+    - step:
+        script:
+          - gradle clean jacocoTestReport
