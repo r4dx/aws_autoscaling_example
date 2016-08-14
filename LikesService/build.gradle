@@ -35,6 +35,15 @@ jar {
 }
 jar.dependsOn jacocoTestReport
 
+task copyNativeDeps(type: Copy) {
+    from (configurations.testCompile) {
+        include "*.dylib"
+        include "*.so"
+        include "*.dll"
+    }
+    into 'build/libs'
+}
+
 test {
     scanForTestClasses = true
     testLogging.showStandardStreams = true
@@ -42,6 +51,11 @@ test {
     beforeTest {
         descriptor -> logger.lifecycle("Running test: " + descriptor)
     }
+}
+
+test.dependsOn copyNativeDeps
+test.doFirst {
+    systemProperty "java.library.path", 'build/libs'
 }
 
 sourceSets {

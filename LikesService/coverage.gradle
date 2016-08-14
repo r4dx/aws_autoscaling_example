@@ -4,7 +4,7 @@ apply plugin: 'jacoco'
 
 ext {
     limits = [
-            'line'       : 68,
+            'line': 75,
     ]
 }
 
@@ -24,6 +24,9 @@ jacocoTestReport {
         def results = parser.parse(report)
 
         def percentage = {
+            if (it == null) {
+                logger.info("")
+            }
             def covered = it.'@covered' as Double
             def missed = it.'@missed' as Double
             ((covered / (covered + missed)) * 100).round(2)
@@ -32,12 +35,7 @@ jacocoTestReport {
         def counters = results.counter
         def metrics = [:]
         metrics << [
-                'instruction': percentage(counters.find { it.'@type'.equals('INSTRUCTION') }),
-                'branch'     : percentage(counters.find { it.'@type'.equals('BRANCH') }),
                 'line'       : percentage(counters.find { it.'@type'.equals('LINE') }),
-                'complexity' : percentage(counters.find { it.'@type'.equals('COMPLEXITY') }),
-                'method'     : percentage(counters.find { it.'@type'.equals('METHOD') }),
-                'class'      : percentage(counters.find { it.'@type'.equals('CLASS') })
         ]
 
 
@@ -50,14 +48,14 @@ jacocoTestReport {
         }
 
         if (failures) {
-            logger.quiet("------------------ Code Coverage Failed -----------------------")
+            logger.info("------------------ Code Coverage Failed -----------------------")
             failures.each {
-                logger.quiet(it)
+                logger.info(it)
             }
-            logger.quiet("---------------------------------------------------------------")
+            logger.info("---------------------------------------------------------------")
             throw new GradleException("Code coverage failed")
         } else{
-            logger.quiet("Passed Code Coverage Checks")
+            logger.info("Passed Code Coverage Checks")
         }
     }
 }
