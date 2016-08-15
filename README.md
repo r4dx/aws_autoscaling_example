@@ -9,6 +9,11 @@ Here are most important parts of what's done:
 3. Load testing client, - scripts to create a load on the service in question. See LoadClient for details.
 4. Load testing runner, - scripts to create load clients infrastructure, gather results from each client. See LoadClientRunner for details.
 
+# Prerequisites
+
+1. Gradle 2.4
+2. HashiCorp Terraform
+
 # LikesService
 
 API:
@@ -44,3 +49,4 @@ Principles:
 # Links
 
 1. http://highscalability.com/blog/2014/3/12/paper-scalable-eventually-consistent-counters-over-unreliabl.html
+2. https://www.terraform.io/docs/providers/aws/r/cloudwatch_metric_alarm.html
