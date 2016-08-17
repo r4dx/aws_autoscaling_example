@@ -4,4 +4,5 @@ build
 out
 .gradle
 ServiceDeployment/terraform.tfvars
+ServiceDeployment/terraform.tfstate.backup
 ServiceDeployment/ssh/

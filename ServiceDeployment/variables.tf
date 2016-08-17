@@ -13,7 +13,7 @@ variable "aws_amis" {
 }
 
 variable "availability_zones" {
-  default = "us-east-1b,us-east-1c,us-east-1d,us-east-1e"
+  default = "us-east-1b,us-east-1a"
 }
 
 variable "instance_type" {
