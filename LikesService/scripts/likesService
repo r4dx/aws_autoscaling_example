@@ -1,0 +1,44 @@
+#!/bin/sh
+# Start/stop the likesService daemon.
+#
+### BEGIN INIT INFO
+# Provides:          LikesService
+# Short-Description: Provides API to increment counter and get current counter value
+# Description:       See more for details: https://bitbucket.org/r4dx/autoscalingexample/
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+### END INIT INFO
+
+DESC="likesService daemon"
+NAME=likesService
+DAEMON="/usr/local/likesService/scripts/likesService.sh"
+PIDFILE=/var/run/likesService.pid
+SCRIPTNAME=/etc/init.d/"$NAME"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+start)  log_daemon_msg "Starting likesService" "likesService"
+        start_daemon $DAEMON $EXTRA_OPTS
+        log_end_msg $?
+        ;;
+stop)   log_daemon_msg "Stopping likesService" "likesService"
+        killproc -p $PIDFILE $DAEMON
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        log_end_msg $RETVAL
+        ;;
+restart) log_daemon_msg "Restarting likesService" "likesService"
+        $0 stop
+        $0 start
+        ;;
+status)
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+        ;;
+*)      log_action_msg "Usage: /etc/init.d/likesService {start|stop|status|restart}"
+        exit 2
+        ;;
+esac
+exit 0
