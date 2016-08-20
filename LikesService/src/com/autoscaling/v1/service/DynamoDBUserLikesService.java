@@ -30,6 +30,9 @@ public class DynamoDBUserLikesService implements UserLikesService {
         GetItemSpec getItemSpec = new GetItemSpec()
                 .withPrimaryKey(UserLikes.userIdAttributeName, userId);
         Item item = table.getItem(getItemSpec);
+        if (item == null)
+            return 0;
+
         return item.getLong(UserLikes.likesAttributeName);
     }
 }
