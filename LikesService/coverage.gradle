@@ -4,7 +4,7 @@ apply plugin: 'jacoco'
 
 ext {
     limits = [
-            'line': 75,
+            'line': 70,
     ]
 }
 

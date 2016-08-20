@@ -19,4 +19,9 @@ public class DynamoDBUserLikesServiceTest {
         service.like(userId);
         Assert.assertEquals(1, service.getLikes(userId));
     }
+
+    @Test
+    public void testGetLikesWithoutLikesReturnsZero() {
+        Assert.assertEquals(0, service.getLikes(userId));
+    }
 }

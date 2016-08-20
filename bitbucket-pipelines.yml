@@ -4,5 +4,6 @@ pipelines:
   default:
     - step:
         script:
-          - cd LikesService
-          - gradle clean jacocoTestReport
+          - > 
+            cd LikesService
+            gradle clean jacocoTestReport

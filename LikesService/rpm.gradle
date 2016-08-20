@@ -1,0 +1,25 @@
+apply plugin: 'nebula.rpm'
+
+task rpm(type: Rpm) {
+    packageName = 'likesService'
+    os = LINUX
+    user = 'root'
+    release = 1
+    postInstall('update-rc.d likesService defaults')
+    postInstall('update-rc.d likesService enable')
+    def destinationFolder = '/usr/local/likesService/'
+    into destinationFolder
+
+    from (jar.destinationDir.getAbsolutePath()) {
+        into ''
+    }
+
+    from ('scripts') {
+        into 'scripts'
+        fileMode 0550
+    }
+
+    link('/etc/init.d/likesService', destinationFolder + 'scripts/likesService')
+    link(destinationFolder + 'likesService.jar', destinationFolder + jar.archiveName)
+}
+rpm.dependsOn bootRepackage
