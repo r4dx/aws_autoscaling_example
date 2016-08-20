@@ -4,6 +4,10 @@ provider "aws" {
   secret_key = "${var.aws_secret_key}"
 }
 
+resource "aws_key_pair" "likes-service-keypair" {
+  key_name = "likes-service-keypair"
+  public_key = "${file("ssh/likesService.pub")}"
+}
 
 resource "aws_autoscaling_policy" "likesServiceASGPolicy" {
     name = "likesServiceASGPolicy"
@@ -34,7 +38,7 @@ resource "aws_elb" "likes-service-elb" {
 
   availability_zones = ["${split(",", var.availability_zones)}"]
   listener {
-    instance_port = 80
+    instance_port = 8080
     instance_protocol = "http"
     lb_port = 80
     lb_protocol = "http"
@@ -44,7 +48,7 @@ resource "aws_elb" "likes-service-elb" {
     healthy_threshold = 2
     unhealthy_threshold = 2
     timeout = 3
-    target = "HTTP:80/v1/healthcheck"
+    target = "HTTP:8080/v1/healthcheck"
     interval = 30
   }
 
@@ -67,48 +71,27 @@ resource "aws_autoscaling_group" "likesServiceASG" {
   }
 }
 
-resource "aws_key_pair" "likes-service-keypair" {
-  key_name = "likes-service-keypair"
-  public_key = "${file("ssh/likesService.pub")}"
-}
 
 resource "aws_launch_configuration" "likes-service-lc" {
+  depends_on = ["aws_s3_bucket_object.rpm"]
+
   name = "likes-service-lc"
   image_id = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.instance_type}"
+  user_data = <<EOF
+#!/bin/bash
+sudo su
+yum install -y redhat-lsb-core
+yum remove -y java-1.7.0-openjdk
+yum install -y java-1.8.0-openjdk
+wget ${aws_s3_bucket.rpm_bucket.website_endpoint}/${aws_s3_bucket_object.rpm.key}
+yum install -y ${aws_s3_bucket_object.rpm.key}
+service likesService start
+EOF
 
+  iam_instance_profile = "${aws_iam_instance_profile.likesService_iam_profile.name}"
   security_groups = ["${aws_security_group.default.id}"]
   key_name = "${aws_key_pair.likes-service-keypair.key_name}"
-}
-
-
-resource "aws_security_group" "default" {
-  name = "likes-service-sg"
-
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-output "hosts" {
-  value = "${aws_elb.likes-service-elb.instances}"
 }
 
 output "elb" {

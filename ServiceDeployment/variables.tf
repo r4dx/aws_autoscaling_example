@@ -30,3 +30,8 @@ variable "asg_max" {
   description = "Max numbers of servers in ASG"
   default = "2"
 }
+
+variable "path_to_rpm" {
+  description = "Path to RPM file to upload to S3, - will be used install on hosts after launch!"
+  default = "../LikesService/build/distributions/likesService-1.0.0-1.noarch.rpm"
+}
