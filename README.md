@@ -13,6 +13,7 @@ Here are most important parts of what's done:
 
 1. Gradle 2.4
 2. HashiCorp Terraform
+3. AWS account
 
 # LikesService
 
@@ -27,24 +28,30 @@ Principles:
 1. REST over HTTP as a protocol
 2. Spring boot as a framework
 3. DynamoDB to store data, - N.B. There is the whole science behind creating really distributed counters but it's not very important for our example, - let's assume that scaling counters per user is enough, - see links for details!
+4. Gradle as a build system
+5. Packaged in RPM
+
 
 # ServiceDeployment
 
-1. Ansible to do Infrastructure as a Code
-2. Creates AWS beanstalk configuration, autoscaling group, manages tagging
+1. Creates S3 bucket and uploads RPM into it
+2. Creates launch configuration with user_data which downloads and setups service RPM
+3. Creates security group, assignes IAM policy to instances, manages tagging
+4. Creates AWS autoscaling group and autoscaling policies
+5. Here's how the end graph looks:
+![Alt text](docs/aws_graph.png)
 
-# LoadClient
+# LoadClient, - TBD
 
 1. jMeter as a core component
 2. Measures success rate per API, average, min, max response time
 
-# LoadClientRunner
+# LoadClientRunner, - TBD
 
-1. Ansible to do Infrastructure as a Code
-2. Creates AWS ec2 instances, manages tagging
-3. Propagates load testing configuration to instances and runs them
-4. Tracks status if load testing complete
-5. Gathers results from each client and returns aggregated table
+1. Creates AWS ec2 instances, manages tagging
+2. Propagates load testing configuration to instances and runs them
+3. Tracks status if load testing complete
+4. Gathers results from each client and returns aggregated table
 
 # Links
 

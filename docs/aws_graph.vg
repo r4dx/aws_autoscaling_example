@@ -1,0 +1,48 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_autoscaling_group.likesServiceASG" [label = "aws_autoscaling_group.likesServiceASG", shape = "box"]
+		"[root] aws_autoscaling_policy.likesServiceASGPolicy" [label = "aws_autoscaling_policy.likesServiceASGPolicy", shape = "box"]
+		"[root] aws_cloudwatch_metric_alarm.likesServiceCPUAlarm" [label = "aws_cloudwatch_metric_alarm.likesServiceCPUAlarm", shape = "box"]
+		"[root] aws_elb.likes-service-elb" [label = "aws_elb.likes-service-elb", shape = "box"]
+		"[root] aws_iam_instance_profile.likesService_iam_profile" [label = "aws_iam_instance_profile.likesService_iam_profile", shape = "box"]
+		"[root] aws_iam_policy.likesService_iam_policy" [label = "aws_iam_policy.likesService_iam_policy", shape = "box"]
+		"[root] aws_iam_role.likesService_iam_role" [label = "aws_iam_role.likesService_iam_role", shape = "box"]
+		"[root] aws_iam_role_policy_attachment.likesService_iam_role_attachment" [label = "aws_iam_role_policy_attachment.likesService_iam_role_attachment", shape = "box"]
+		"[root] aws_key_pair.likes-service-keypair" [label = "aws_key_pair.likes-service-keypair", shape = "box"]
+		"[root] aws_launch_configuration.likes-service-lc" [label = "aws_launch_configuration.likes-service-lc", shape = "box"]
+		"[root] aws_s3_bucket.rpm_bucket" [label = "aws_s3_bucket.rpm_bucket", shape = "box"]
+		"[root] aws_s3_bucket_object.rpm" [label = "aws_s3_bucket_object.rpm", shape = "box"]
+		"[root] aws_security_group.default" [label = "aws_security_group.default", shape = "box"]
+#		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] aws_autoscaling_group.likesServiceASG" -> "[root] aws_elb.likes-service-elb"
+		"[root] aws_autoscaling_group.likesServiceASG" -> "[root] aws_launch_configuration.likes-service-lc"
+#		"[root] aws_autoscaling_group.likesServiceASG" -> "[root] provider.aws"
+		"[root] aws_autoscaling_policy.likesServiceASGPolicy" -> "[root] aws_autoscaling_group.likesServiceASG"
+#		"[root] aws_autoscaling_policy.likesServiceASGPolicy" -> "[root] provider.aws"
+		"[root] aws_cloudwatch_metric_alarm.likesServiceCPUAlarm" -> "[root] aws_autoscaling_group.likesServiceASG"
+		"[root] aws_cloudwatch_metric_alarm.likesServiceCPUAlarm" -> "[root] aws_autoscaling_policy.likesServiceASGPolicy"
+#		"[root] aws_cloudwatch_metric_alarm.likesServiceCPUAlarm" -> "[root] provider.aws"
+#		"[root] aws_elb.likes-service-elb" -> "[root] provider.aws"
+		"[root] aws_iam_instance_profile.likesService_iam_profile" -> "[root] aws_iam_role.likesService_iam_role"
+#		"[root] aws_iam_instance_profile.likesService_iam_profile" -> "[root] provider.aws"
+#		"[root] aws_iam_policy.likesService_iam_policy" -> "[root] provider.aws"
+#		"[root] aws_iam_role.likesService_iam_role" -> "[root] provider.aws"
+		"[root] aws_iam_role_policy_attachment.likesService_iam_role_attachment" -> "[root] aws_iam_policy.likesService_iam_policy"
+		"[root] aws_iam_role_policy_attachment.likesService_iam_role_attachment" -> "[root] aws_iam_role.likesService_iam_role"
+#		"[root] aws_iam_role_policy_attachment.likesService_iam_role_attachment" -> "[root] provider.aws"
+#		"[root] aws_key_pair.likes-service-keypair" -> "[root] provider.aws"
+		"[root] aws_launch_configuration.likes-service-lc" -> "[root] aws_iam_instance_profile.likesService_iam_profile"
+		"[root] aws_launch_configuration.likes-service-lc" -> "[root] aws_key_pair.likes-service-keypair"
+		"[root] aws_launch_configuration.likes-service-lc" -> "[root] aws_s3_bucket.rpm_bucket"
+		"[root] aws_launch_configuration.likes-service-lc" -> "[root] aws_s3_bucket_object.rpm"
+		"[root] aws_launch_configuration.likes-service-lc" -> "[root] aws_security_group.default"
+#		"[root] aws_launch_configuration.likes-service-lc" -> "[root] provider.aws"
+#		"[root] aws_s3_bucket.rpm_bucket" -> "[root] provider.aws"
+		"[root] aws_s3_bucket_object.rpm" -> "[root] aws_s3_bucket.rpm_bucket"
+#		"[root] aws_s3_bucket_object.rpm" -> "[root] provider.aws"
+#		"[root] aws_security_group.default" -> "[root] provider.aws"
+	}
+}
+
