@@ -14,6 +14,8 @@ Here are most important parts of what's done:
 1. Gradle 2.4
 2. HashiCorp Terraform
 3. AWS account
+4. generate ssh public and private keys in ServiceDeployment/ssh folder
+5. Populate ServiceDeployment\terraform.tfvars with aws access and secret keys
 
 # LikesService
 
