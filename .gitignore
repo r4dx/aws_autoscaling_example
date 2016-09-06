@@ -6,3 +6,6 @@ out
 ServiceDeployment/terraform.tfvars
 ServiceDeployment/terraform.tfstate.backup
 ServiceDeployment/ssh/
+LoadTest/create/ssh/
+LoadTest/create/terraform.tfvars
+LoadTest/create/terraform.tfstate.backup
