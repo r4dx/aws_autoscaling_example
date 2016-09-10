@@ -1,6 +1,11 @@
 import boto3
+import sys
+import os
+import subprocess
 
 ASG_NAME = "load-server-asg"
+JMETER_PATH = "apache-jmeter-3.0/bin/jmeter.bat"
+JMETER_SCRIPT = "script.jmx"
 
 class Instance:
 	def __init__(self, botoClient, instanceId):
@@ -42,5 +47,9 @@ class AutoscalingGroup:
 
 autoscalingGroup = AutoscalingGroup(boto3.client('autoscaling'), boto3.client('ec2'), ASG_NAME)
 instances = autoscalingGroup.getInstances()
+command = [os.path.join(sys.path[0], JMETER_PATH), "-n", "-t " + JMETER_SCRIPT]
+command.append("-R ");
 for instance in instances:
-	print instance.getPublicDNS()
+	command[-1] += instance.getPublicDNS() + " "
+
+subprocess.call(command)

@@ -6,6 +6,7 @@ out
 ServiceDeployment/terraform.tfvars
 ServiceDeployment/terraform.tfstate.backup
 ServiceDeployment/ssh/
-LoadTest/create/ssh/
-LoadTest/create/terraform.tfvars
-LoadTest/create/terraform.tfstate.backup
+LoadTest/create_nodes/ssh/
+LoadTest/create_nodes/terraform.tfvars
+LoadTest/create_nodes/terraform.tfstate.backup
+LoadTest/client/apache-jmeter-3.0/
