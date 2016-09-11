@@ -4,15 +4,16 @@ import os
 import subprocess
 
 ASG_NAME = "load-server-asg"
+ELB_TO_LOADTEST_NAME = "likes-service-elb"
+
 JMETER_PATH = "apache-jmeter-3.0/bin/jmeter.bat"
 JMETER_SCRIPT = "script.jmx"
-
 class Instance:
 	def __init__(self, botoClient, instanceId):
 		self.botoClient = botoClient
 		self.instanceId = instanceId
 
-	def getPublicDNS(self):
+	def getPublicIP(self):
 		response = self.botoClient.describe_instances(InstanceIds=[self.instanceId])
 		reservations = response['Reservations']
 		if len(reservations) != 1:
@@ -22,7 +23,7 @@ class Instance:
 		if len(instances) != 1:  
 			raise Exception("Can't find instance " + self.instanceId)
 
-		return instances[0]['PublicDnsName']
+		return instances[0]['PublicIpAddress']
 
 class AutoscalingGroup:
 	def __init__(self, autoscalingBotoClient, ec2BotoClient, name):
@@ -45,11 +46,24 @@ class AutoscalingGroup:
 
 		return instances
 
+class ElasticLoadBalancer:
+	def __init__(self, elbBotoClient, name):
+		self.name = name
+		self.botoClient = elbBotoClient
+
+	def getDNSName(self):
+		response = self.botoClient.describe_load_balancers(LoadBalancerNames=[self.name])
+		elbs = response['LoadBalancerDescriptions']
+		if (len(elbs) != 1):
+			raise Exception("Can't find or too many elbs with the name " + self.name)
+
+		return elbs[0]['DNSName']
+
 autoscalingGroup = AutoscalingGroup(boto3.client('autoscaling'), boto3.client('ec2'), ASG_NAME)
 instances = autoscalingGroup.getInstances()
-command = [os.path.join(sys.path[0], JMETER_PATH), "-n", "-t " + JMETER_SCRIPT]
-command.append("-R ");
-for instance in instances:
-	command[-1] += instance.getPublicDNS() + " "
+elb = ElasticLoadBalancer(boto3.client('elb'), ELB_TO_LOADTEST_NAME)
+absoluteJmeterPath = os.path.join(sys.path[0], JMETER_PATH)
 
+command = [absoluteJmeterPath, '-n', '-t', JMETER_SCRIPT, '-R ']
+command[-1] += ','.join([instance.getPublicIP() for instance in instances])
 subprocess.call(command)
