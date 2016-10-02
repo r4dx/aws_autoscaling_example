@@ -3,10 +3,10 @@ import sys
 import os
 import subprocess
 
-ASG_NAME = "load-server-asg"
+ASG_NAME = "jmeter-slave-ASG"
 ELB_TO_LOADTEST_NAME = "likes-service-elb"
 
-JMETER_PATH = "apache-jmeter-3.0/bin/jmeter.bat"
+JMETER_PATH = "apache-jmeter-3.0/bin/jmeter"
 JMETER_SCRIPT = "script.jmx"
 class Instance:
 	def __init__(self, botoClient, instanceId):
@@ -59,9 +59,9 @@ class ElasticLoadBalancer:
 
 		return elbs[0]['DNSName']
 
-autoscalingGroup = AutoscalingGroup(boto3.client('autoscaling'), boto3.client('ec2'), ASG_NAME)
+autoscalingGroup = AutoscalingGroup(boto3.client('autoscaling', region_name = sys.argv[1]), boto3.client('ec2', region_name = sys.argv[1]), ASG_NAME)
 instances = autoscalingGroup.getInstances()
-elb = ElasticLoadBalancer(boto3.client('elb'), ELB_TO_LOADTEST_NAME)
+elb = ElasticLoadBalancer(boto3.client('elb', region_name = sys.argv[1]), ELB_TO_LOADTEST_NAME)
 absoluteJmeterPath = os.path.join(sys.path[0], JMETER_PATH)
 
 command = [absoluteJmeterPath, '-n', '-t', JMETER_SCRIPT, '-R ']
