@@ -53,17 +53,31 @@ resource "aws_key_pair" "jmeter-master-keypair" {
 resource "aws_security_group" "jmeter-master-sg" {
   name = "jmeter-master-sg"
 
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#  ingress {
+#    from_port = 22
+#    to_port = 22
+#    protocol = "tcp"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+
+#  ingress {
+#    from_port = 1099
+#    to_port = 1099
+#    protocol = "tcp"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+
+#  ingress {
+#    from_port = 1098
+#    to_port = 1098
+#    protocol = "tcp"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
 
   ingress {
-    from_port = 1099
-    to_port = 1099
-    protocol = "tcp"
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
