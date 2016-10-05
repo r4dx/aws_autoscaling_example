@@ -18,52 +18,18 @@ resource "aws_launch_configuration" "jmeter-slave-lc" {
   name = "jmeter-slave-lc"
   image_id = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.slave_instance_type}"
-  user_data = "${file("${path.module}/slave_setup.sh")}"
+  user_data = <<EOF
+#!/bin/sh
+curl ${var.jmeter3_url} > jMeter.tgz
+tar zxvf jMeter.tgz
+apache-jmeter-3.0/bin/jmeter-server
+EOF
 
-  security_groups = ["${aws_security_group.jmeter-slave-sg.id}"]
+  security_groups = ["${aws_security_group.jmeter-sg.id}"]
   key_name = "${aws_key_pair.jmeter-slave-keypair.key_name}"
 }
 
 resource "aws_key_pair" "jmeter-slave-keypair" {
   key_name = "jmeter-slave-keypair"
   public_key = "${file("${var.slave_ssh_public_key_file}")}"
-}
-
-resource "aws_security_group" "jmeter-slave-sg" {
-  name = "jmeter-slave-sg"
-
-#  ingress {
-#    from_port = 22
-#    to_port = 22
-#    protocol = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-
-#  ingress {
-#    from_port = 1099
-#    to_port = 1099
-#    protocol = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-
-#  ingress {
-#    from_port = 1098
-#    to_port = 1098
-#    protocol = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
