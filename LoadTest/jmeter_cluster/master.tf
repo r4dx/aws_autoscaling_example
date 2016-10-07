@@ -85,3 +85,7 @@ resource "aws_iam_role_policy_attachment" "jmeter_master_iam_role_attachment" {
     role = "${aws_iam_role.jmeter_master_iam_role.name}"
     policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
 }
+
+output "master_public_ip" {
+	value = "${aws_instance.jmeter-master-instance.public_ip}"
+}
