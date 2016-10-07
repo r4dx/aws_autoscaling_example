@@ -1,13 +1,13 @@
 # Abstract
-This is an example of how autoscaling can be built in AWS cloud and additionally how load testing can be performed in the same stack of technologies.
+This is an example of how autoscaling can be built in AWS cloud and additionally how load testing can be performed using the same stack of technologies.
 
 # Method
 Here are most important parts of what's done:
 
 1. Service to load test, - stores Likes count users set to each other. See LikesService for details.
 2. Service deployment code, - scripts to create autoscaling infrastructure for service from scratch. See ServiceDeployment for details.
-3. Load testing client, - scripts to create a load on the service in question. See LoadClient for details.
-4. Load testing runner, - scripts to create load clients infrastructure, gather results from each client. See LoadClientRunner for details.
+3. TBD Load testing client, - scripts to create a load on the service in question. See LoadClient for details.
+4. TBD Load testing runner, - scripts to create load clients infrastructure and gather results from each client. See LoadClientRunner for details.
 
 # Prerequisites
 
@@ -38,10 +38,15 @@ Principles:
 
 1. Creates S3 bucket and uploads RPM into it
 2. Creates launch configuration with user_data which downloads and setups service RPM
-3. Creates security group, assignes IAM policy to instances, manages tagging
+3. Creates security group, assigns IAM policy to instances, manages tagging
 4. Creates AWS autoscaling group and autoscaling policies
 5. Here's how the end graph looks:
 ![Alt text](docs/aws_graph.png)
+
+## How to install
+1. Generate ssh public and private keys in ServiceDeployment/ssh folder
+2. Populate ServiceDeployment\terraform.tfvars with aws access and secret keys
+
 
 # LoadClient, - TBD
 
