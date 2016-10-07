@@ -14,6 +14,8 @@ Here are most important parts of what's done:
 1. Gradle 2.4
 2. HashiCorp Terraform
 3. AWS account
+4. Python 2.7
+5. https://github.com/boto/boto3
 
 # LikesService
 
@@ -48,6 +50,10 @@ Principles:
 
 # LoadClientRunner, - TBD
 
+N.B. It's required to configure AWS credentials before running configure.py. 
+
+```aws configure``` 
+
 1. Creates AWS ec2 instances, manages tagging
 2. Propagates load testing configuration to instances and runs them
 3. Tracks status if load testing complete
@@ -57,3 +63,4 @@ Principles:
 
 1. http://highscalability.com/blog/2014/3/12/paper-scalable-eventually-consistent-counters-over-unreliabl.html
 2. https://www.terraform.io/docs/providers/aws/r/cloudwatch_metric_alarm.html
+3. http://jmeter.apache.org/usermanual/remote-test.html
