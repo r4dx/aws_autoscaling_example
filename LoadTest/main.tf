@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "jmeter_cluster" {
-  source = "jmeter_cluster"
+  source = "github.com/r4dx/terraform-aws-jmeter"
 
   aws_region = "${var.aws_region}"
   slave_ssh_public_key_file = "ssh/loadServer.pub"
