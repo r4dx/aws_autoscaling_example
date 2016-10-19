@@ -20,7 +20,7 @@ To deploy and load test
 1. HashiCorp Terraform
 2. AWS account
 3. ssh client
-4. Tool to create ssh keys
+4. Tool to create ssh keys (e.g. ssh-keygen)
 
 
 # LikesService
