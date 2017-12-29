@@ -27,8 +27,8 @@ To deploy and load test
 
 ## API
 
-1. POST /v1/<userId>/likes, - adds like to a user
-2. GET /v1/<userId>/likes, - gets amount of likes for a user
+1. POST /v1/_userId_/likes, - adds like to a user
+2. GET /v1/_userId_/likes, - gets amount of likes for a user
 3. GET /v1/healthcheck, - returns { "healthy": true } if healthy
 
 ## Principles
